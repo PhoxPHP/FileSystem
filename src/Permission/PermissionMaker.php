@@ -1,5 +1,5 @@
 <?php
-namespace Package\FileSystem\Permission;
+namespace Kit\FileSystem\Permission;
 /**
 * @author 		Peter Taiwo
 * @version 		1.0.0
@@ -29,8 +29,8 @@ namespace Package\FileSystem\Permission;
 */
 
 use BadPermissionException;
-use Package\FileSystem\Exceptions\BadPermissionException;
-use Package\FileSystem\Permission\Interfaces\Permittable;
+use Kit\FileSystem\Exceptions\BadPermissionException;
+use Kit\FileSystem\Permission\Interfaces\Permittable;
 
 class PermissionMaker
 {
@@ -38,7 +38,7 @@ class PermissionMaker
 	/**
 	* Changes a file or directory's group permission.
 	*
-	* @param 	$permittable <Interface> Package\FileSystem\Permission\Interfaces\Permittable
+	* @param 	$permittable <Interface> Kit\FileSystem\Permission\Interfaces\Permittable
 	* @param 	$group <String>
 	* @access 	public
 	* @throws 	BadPermissionException
@@ -54,7 +54,7 @@ class PermissionMaker
 	/**
 	* Changes a file or directory's owner permission.
 	*
-	* @param 	$permittable <Interface> Package\FileSystem\Permission\Interfaces\Permittable
+	* @param 	$permittable <Interface> Kit\FileSystem\Permission\Interfaces\Permittable
 	* @param 	$owner <String>
 	* @access 	public
 	* @throws 	BadPermissionException
@@ -76,7 +76,7 @@ class PermissionMaker
 	/**
 	* Changes a file or directory's mode.
 	*
-	* @param 	$permittable <Interface> Package\FileSystem\Permission\Interfaces\Permittable
+	* @param 	$permittable <Interface> Kit\FileSystem\Permission\Interfaces\Permittable
 	* @param 	$mode <Integer>
 	* @access 	public
 	* @throws 	BadPermissionException

@@ -1,5 +1,5 @@
 <?php
-namespace Package\FileSystem\Directory;
+namespace Kit\FileSystem\Directory;
 /**
 * @author 		Peter Taiwo
 * @version 		1.0.0
@@ -23,11 +23,11 @@ namespace Package\FileSystem\Directory;
 */
 
 use FileNotFoundException;
-use Package\FileSystem\Converter;
-use Package\FileSystem\File\Reader;
-use Package\FileSystem\File\FileManager;
-use Package\FileSystem\Permission\PermissionMaker;
-use Package\FileSystem\Permission\Interfaces\Permittable;
+use Kit\FileSystem\Converter;
+use Kit\FileSystem\File\Reader;
+use Kit\FileSystem\File\FileManager;
+use Kit\FileSystem\Permission\PermissionMaker;
+use Kit\FileSystem\Permission\Interfaces\Permittable;
 
 class DirectoryManager implements Permittable
 {

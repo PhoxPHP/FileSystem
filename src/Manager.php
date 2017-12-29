@@ -21,12 +21,12 @@
 * SOFTWARE.
 */
 
-namespace Package\FileSystem;
+namespace Kit\FileSystem;
 
-use Package\FileSystem\Converter;
-use Package\DependencyInjection\Injector\InjectorBridge;
-use Package\FileSystem\Directory\DirectoryManager;
-use Package\FileSystem\File\FileManager;
+use Kit\FileSystem\Converter;
+use Kit\DependencyInjection\Injector\InjectorBridge;
+use Kit\FileSystem\Directory\DirectoryManager;
+use Kit\FileSystem\File\FileManager;
 
 class Manager extends InjectorBridge
 {
