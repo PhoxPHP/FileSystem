@@ -1,0 +1,19 @@
+{
+	"name": "phoxphp/filesystem",
+	"description": "PhoxPHP Filesystem Component",
+	"keywords": ["php", "php7", "Filesystem"],
+	"author": [
+		{
+			"name": "PhoxPHP",
+			"email": "admin@phoxphp.com"
+		}
+	],
+	"require": {
+		"php": ">=7.0.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"PhoxPHP\\FileSystem\\": "src"
+		}
+	}
+}
