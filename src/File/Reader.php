@@ -1,12 +1,12 @@
 <?php
-namespace Package\FileSystem\File;
+namespace Kit\FileSystem\File;
 
 /**
 * @author 	Peter Taiwo
 * @package 	FileSystem.File.Reader
 */
 
-use Package\FileSystem\File\FileManager;
+use Kit\FileSystem\File\FileManager;
 
 class Reader
 {
@@ -14,7 +14,7 @@ class Reader
 	/**
 	* Returns the content of a file.
 	*
-	* @param 	$file <Object> Package\FileSystem\File\FileManager
+	* @param 	$file <Object> Kit\FileSystem\File\FileManager
 	* @access 	public
 	* @return 	String
 	*/
@@ -24,7 +24,7 @@ class Reader
 	}
 
 	/**
-	* @param 	$file <Object> Package\FileSystem\File\FileManager
+	* @param 	$file <Object> Kit\FileSystem\File\FileManager
 	* @access 	public
 	* @return 	Array
 	*/

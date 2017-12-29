@@ -1,5 +1,5 @@
 <?php
-namespace Package\FileSystem\Exceptions;
+namespace Kit\FileSystem\Exceptions;
 
 use App\BaseException;
 

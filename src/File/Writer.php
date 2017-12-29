@@ -1,9 +1,9 @@
 <?php
-namespace Package\FileSystem\File;
+namespace Kit\FileSystem\File;
 
 use StringHelper;
 use BadWriterDataException;
-use Package\FileSystem\File\FileManager;
+use Kit\FileSystem\File\FileManager;
 
 class Writer
 {
