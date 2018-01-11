@@ -1,5 +1,5 @@
 <?php
-namespace Kit\FileSystem\Permission\Interfaces;
+namespace Kit\FileSystem\Permission\Contracts;
 
 interface Permittable
 {

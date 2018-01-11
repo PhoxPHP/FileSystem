@@ -24,18 +24,17 @@
 namespace Kit\FileSystem;
 
 use Kit\FileSystem\Converter;
-use Kit\DependencyInjection\Injector\InjectorBridge;
-use Kit\FileSystem\Directory\DirectoryManager;
 use Kit\FileSystem\File\FileManager;
+use Kit\FileSystem\Directory\DirectoryManager;
 
-class Manager extends InjectorBridge
+class Manager
 {
 
 	/**
-	* @var 		$pack
+	* @var 		$resource
 	* @access 	public
 	*/
-	public 		$pack;
+	public 		$resource;
 
 	/**
 	* @var 		$file
@@ -54,34 +53,35 @@ class Manager extends InjectorBridge
 	*
 	* @param 	$resource <String> Name of file or directory.
 	* @access 	public
-	* @return 	Object
+	* @return 	Kit\FileSystem\Manager
 	*/
-	public function __construct($resource='')
+	public function __construct($resource='') : Manager
 	{
-		(String) $this->pack = $resource;
+		(String) $this->resource = $resource;
 		$this->file = new FileManager($resource);
 		$this->directory = new DirectoryManager($resource);
+
 		return $this;
 	}
 
 	/**
-	* Returns an instance of FileSystem\File.
+	* Returns an instance of Kit\FileSystem\File\FileManager.
 	*
 	* @access 	public
 	* @return 	Object
 	*/
-	public function file()
+	public function file() : FileManager
 	{
 		return $this->file;
 	}
 
 	/**
-	* Returns an instance of FileSystem\Directory.
+	* Returns an instance of Kit\FileSystem\Directory\DirectoryManager.
 	*
 	* @access 	public
 	* @return 	Object
 	*/
-	public function directory()
+	public function directory() : DirectoryManager
 	{
 		return $this->directory;
 	}

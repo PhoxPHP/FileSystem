@@ -18,19 +18,19 @@ class Writer
 	* @var 		$maxStringLength
 	* @access 	private
 	*/
-	private static $maxStringLength=null;
+	private static $maxStringLength = null;
 
 	/**
 	* @var 		$minStringLength
 	* @access 	private
 	*/
-	private static $minStringLength=null;
+	private static $minStringLength = null;
 
 	/**
 	* @var 		$roNewLine
 	* @access 	private
 	*/
-	private static $toNewLine=null;
+	private static $toNewLine = null;
 
 	/**
 	* Constructor
@@ -77,15 +77,23 @@ class Writer
 	*/
 	private static function validateDataLength($data) {
 		if (null !== Writer::$minStringLength && Writer::$minStringLength > 0 && ctype_digit(Writer::$minStringLength)) {
+
 			if (strlen($data) < Writer::$minStringLength) {
+
 				throw new RuntimeException('Unable to write data into file. Data length is lower than required length.');
+			
 			}
+		
 		}
 
 		if (null !== Writer::$maxStringLength && Writer::$maxStringLength > 0 && is_integer((Integer) Writer::$maxStringLength)) {
+			
 			if (strlen($data) > Writer::$maxStringLength) {
+			
 				throw new RuntimeException('Unable to write data into file. Data length is higher than required length.');
+			
 			}
+		
 		}
 
 	}
@@ -110,12 +118,14 @@ class Writer
 	* @access 	public
 	* @return 	void
 	*/
-	public function write($data='')
+	public function write(String $data='')
 	{
 		Writer::validateDataLength($data);
 
 		if (true == boolval(Writer::$toNewLine)) {
-			$data=$data."\n";
+
+			$data = $data."\n";
+		
 		}
 
 		$filePointer = fopen($this->file, 'a');
