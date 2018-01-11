@@ -22,12 +22,11 @@ namespace Kit\FileSystem\File;
 * SOFTWARE.
 */
 
-use Kit\FileSystem\Converter;
 use Kit\FileSystem\File\Reader;
 use Kit\FileSystem\File\Writer;
 use Kit\FileSystem\Permission\PermissionMaker;
 use Kit\FileSystem\Exceptions\FileNotFoundException;
-use Kit\FileSystem\Permission\Interfaces\Permittable;
+use Kit\FileSystem\Permission\Contracts\Permittable;
 
 class FileManager implements Permittable
 {
@@ -36,7 +35,7 @@ class FileManager implements Permittable
 	* @var 		$file
 	* @access 	private
 	*/
-	private 	$file=null;
+	private 	$file = null;
 
 	/**
 	* Constructor
@@ -54,14 +53,17 @@ class FileManager implements Permittable
 	* Creates a new file and returns file object afterwards.
 	*
 	* @access 	public
-	* @return 	Object | $this
+	* @return 	Kit\FileManager\File\FileManager
 	*/
 	public function create()
 	{
-		$file=['file' => $this->file];
+		$file = ['file' => $this->file];
 		$setPointer = fopen($this->file, 'w');
+
 		if (false == $setPointer) {
+
 			touch($this->file);
+		
 		}
 
 		return $this;
@@ -77,7 +79,9 @@ class FileManager implements Permittable
 	public function createIfNotExist()
 	{
 		if (!$this->exists()) {
+
 			return $this->create();
+		
 		}
 
 		return $this;
@@ -85,14 +89,18 @@ class FileManager implements Permittable
 
 	/**
 	* Checks if a file exists.
+	*
 	* @access 	public
 	* @return 	Boolean
 	*/
 	public function exists()
 	{
 		$response = false;
+		
 		if (file_exists($this->file) && is_file($this->file)) {
+
 			$response = true;
+		
 		}
 
 		return $response;
@@ -105,16 +113,21 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	Mixed
 	*/
-	public function getFileSize($file='')
+	public function getFileSize(String $file='')
 	{
 		$response = false;
 		if (null == $this->file) {
-			$this->file=$file;
+
+			$this->file = $file;
+		
 		}
 
 		if ($this->exists()) {
-			$size=filesize($this->file);
+
+			$size = filesize($this->file);
+			
 			return $size;
+		
 		}
 	}
 
@@ -127,7 +140,9 @@ class FileManager implements Permittable
 	public function getFileType()
 	{
 		if ($this->exists()) {
+
 			return filetype($this->file);
+		
 		}
 
 		return null;
@@ -138,13 +153,16 @@ class FileManager implements Permittable
 	*
 	* @param 	$newDestination <String>
 	* @access 	public
-	* @return 	Boolean
+	* @return 	Mixed
 	*/
-	public function moveTo($newDestination='')
+	public function moveTo(String $newDestination='')
 	{
 		if ($this->exists() && false == file_exists($newDirectory)) {
+
 			copy($this->file, $newDestination);
+
 			return true;
+		
 		}
 
 		return null;
@@ -157,15 +175,20 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	Mixed
 	*/
-	public function rename($newName='')
+	public function rename(String $newName='')
 	{
 		if ('' == $newName) {
+
 			$newName = uniqid();
+		
 		}
 
 		if ($this->exists()) {
+
 			rename($this->file, $newName);
+		
 			return true;
+		
 		}
 	}
 
@@ -179,7 +202,9 @@ class FileManager implements Permittable
 	public function delete($file='')
 	{
 		if (null == $this->file) {
+
 			$this->file = $file;
+		
 		}
 
 		unlink($this->file);
@@ -195,7 +220,9 @@ class FileManager implements Permittable
 	public function deleteMultiple(array $files=[])
 	{
 		if (sizeof($files) > 0) {
+
 			return array_map([$this, 'deleteIfExists'], $array);
+		
 		}
 	}
 
@@ -204,13 +231,16 @@ class FileManager implements Permittable
 	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	Boolean
+	* @return 	Mixed
 	*/
-	public function deleteIfExists($file='')
+	public function deleteIfExists(String $file='')
 	{
 		if ($this->exists()) {
+
 			$this->delete($file);
+		
 			return true;
+		
 		}
 
 		return null;
@@ -225,7 +255,9 @@ class FileManager implements Permittable
 	public function getModifiedTime()
 	{
 		if ($this->exists()) { 
+
 			return filemtime($this->file);
+		
 		}
 
 		return null;
@@ -240,7 +272,9 @@ class FileManager implements Permittable
 	public function getLastAccessTime()
 	{
 		if ($this->exists()) {
+
 			return fileatime($this->file);
+	
 		}
 
 		return null;
@@ -265,14 +299,18 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	String
 	*/
-	public function read($file='')
+	public function read(String $file='')
 	{
 		if ('' !== $file) {
+
 			$this->file = $file;
+		
 		}
 
 		if ($this->exists()) {
+
 			return Reader::read($this);
+		
 		}
 	}
 
@@ -300,15 +338,20 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	Boolean
 	*/
-	public function isWritable($file='')
+	public function isWritable(String $file='')
 	{
 		(Boolean) $response = false;
+
 		if (null == $this->file) {
+		
 			$this->file = $file;
+		
 		}
 
 		if (is_writable($this->file)) {
+		
 			$response = true; 
+		
 		}
 
 		return $response;
@@ -321,15 +364,20 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	Boolean
 	*/
-	public function isExecutable($file='')
+	public function isExecutable(String $file='')
 	{
 		(Boolean) $response = false;
+
 		if (null == $this->file) {
+		
 			$this->file = $file;
+		
 		}
 
 		if (is_executable($this->file)) {
+		
 			$response = true;
+		
 		}
 
 		return $response;
@@ -342,13 +390,16 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	Boolean
 	*/
-	public function write($data='')
+	public function write(String $data='')
 	{
 		if (!$this->exists()) {
+
 			return;
+		
 		}
 
 		$writer = new Writer($this);
+
 		return ($writer->write($data)) ? true : false;
 	}
 
@@ -359,10 +410,12 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	void
 	*/
-	public function chown($owner='')
+	public function chown(String $owner='')
 	{
 		if (!$this->exists()) {
+
 			return;
+		
 		} 
 
 		return $this->permissionInstance()->changeOwner($this, $owner);
@@ -375,10 +428,12 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	void
 	*/
-	public function chgrp($group='')
+	public function chgrp(String $group='')
 	{
 		if (!$this->exists()) {
+
 			return;
+		
 		}
 
 		return $this->permissionInstance()->changeGroup($this, $group);
@@ -391,10 +446,12 @@ class FileManager implements Permittable
 	* @access 	public
 	* @return 	void
 	*/
-	public function chmod($mode='')
+	public function chmod(String $mode='')
 	{
 		if (!$this->exists()) {
+
 			return;
+
 		}
 
 		return $this->permissionInstance()->changeMode($this, $mode);
@@ -408,13 +465,16 @@ class FileManager implements Permittable
 	* @throws 	FileNotFoundException
 	* @return 	Mixed
 	*/
-	public function getLine($line=0)
+	public function getLine(int $line=0)
 	{
 		if (!$this->exists()) {
+
 			throw new FileNotFoundException("Unable to get line from file $this->file");
+		
 		}
 
 		$reader = Reader::readAsArray($this);
+
 		return $reader[$line];
 	}
 
@@ -427,7 +487,9 @@ class FileManager implements Permittable
 	public function isPostedUpload()
 	{
 		if (!is_uploaded_file($this->file)) {
+
 			return false;
+		
 		}
 
 		return true;
@@ -442,7 +504,9 @@ class FileManager implements Permittable
 	public function getRealPath()
 	{
 		if ($this->exists()) {
+
 			return realpath($this->file);
+		
 		}
 
 		return false;
