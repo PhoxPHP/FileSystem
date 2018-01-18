@@ -39,9 +39,10 @@ class FileManager implements Permittable
 
 	/**
 	* Constructor
+	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	$this
+	* @return 	Kit\FileSystem\File\FileManager
 	*/
 	public function __construct($file='')
 	{
