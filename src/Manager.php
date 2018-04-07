@@ -53,9 +53,9 @@ class Manager
 	*
 	* @param 	$resource <String> Name of file or directory.
 	* @access 	public
-	* @return 	Kit\FileSystem\Manager
+	* @return 	Object <Kit\FileSystem\Manager>
 	*/
-	public function __construct(String $resource) : Manager
+	public function __construct(String $resource)
 	{
 		(String) $this->resource = $resource;
 		$this->file = new FileManager($resource);
@@ -68,7 +68,7 @@ class Manager
 	* Returns an instance of Kit\FileSystem\File\FileManager.
 	*
 	* @access 	public
-	* @return 	Object
+	* @return 	Object <Kit\FileSystem\File\FileManager>
 	*/
 	public function file() : FileManager
 	{
@@ -79,7 +79,7 @@ class Manager
 	* Returns an instance of Kit\FileSystem\Directory\DirectoryManager.
 	*
 	* @access 	public
-	* @return 	Object
+	* @return 	Object <Kit\FileSystem\Directory\DirectoryManager>
 	*/
 	public function directory() : DirectoryManager
 	{
