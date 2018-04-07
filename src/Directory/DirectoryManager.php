@@ -22,11 +22,11 @@ namespace Kit\FileSystem\Directory;
 * SOFTWARE.
 */
 
-use FileNotFoundException;
 use Kit\FileSystem\File\Reader;
 use Kit\FileSystem\File\FileManager;
 use Kit\FileSystem\Permission\PermissionMaker;
 use Kit\FileSystem\Permission\Contracts\Permittable;
+use Kit\FileSystem\Exceptions\FileNotFoundException;
 
 class DirectoryManager implements Permittable
 {
@@ -200,7 +200,7 @@ class DirectoryManager implements Permittable
 		
 			while ($opened = readdir($dir)) {
 		
-				if (is_dir($this->directory . DIRECTORY_SEPARATOR . $opened) && !Directory::isBlockListed($opened)) {
+				if (is_dir($this->directory . DIRECTORY_SEPARATOR . $opened) && !DirectoryManager::isBlockListed($opened)) {
 		
 					$dirs[] = $opened;	
 		
@@ -285,7 +285,7 @@ class DirectoryManager implements Permittable
 	*/
 	public static function isBlockListed(String $resource='')
 	{
-		return (in_array($resource, Directory::$blockedList)) ? true : false;
+		return (in_array($resource, DirectoryManager::$blockedList)) ? true : false;
 	}
 
 	/**
