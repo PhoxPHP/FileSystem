@@ -55,7 +55,7 @@ class Manager
 	* @access 	public
 	* @return 	Kit\FileSystem\Manager
 	*/
-	public function __construct($resource='') : Manager
+	public function __construct(String $resource) : Manager
 	{
 		(String) $this->resource = $resource;
 		$this->file = new FileManager($resource);
