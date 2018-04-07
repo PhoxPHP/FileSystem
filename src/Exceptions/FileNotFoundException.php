@@ -19,7 +19,8 @@ class FileNotFoundException extends BaseException
 	*/
 	public function __construct($message='')
 	{
-		parent::__construct($message);
+		$this->message = $message;
+		parent::__construct();
 	}
 
 }

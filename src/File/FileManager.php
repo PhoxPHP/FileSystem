@@ -133,7 +133,7 @@ class FileManager implements Permittable
 	}
 
 	/**
-	* Gets the file of the specified file.
+	* Gets the file type of the specified file.
 	*
 	* @access 	public
 	* @return 	Mixed
@@ -150,13 +150,13 @@ class FileManager implements Permittable
 	}
 
 	/**
-	* Copies a file to a new directory.
+	* Copies a file to a new location.
 	*
 	* @param 	$newDestination <String>
 	* @access 	public
 	* @return 	Mixed
 	*/
-	public function moveTo(String $newDestination='')
+	public function copyTo(String $newDestination='')
 	{
 		if ($this->exists() && false == file_exists($newDirectory)) {
 
@@ -333,7 +333,7 @@ class FileManager implements Permittable
 	}
 
 	/**
-	* Checks if a file is readable.
+	* Checks if a file is writable.
 	*
 	* @param 	$file <String>
 	* @access 	public
