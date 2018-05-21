@@ -31,22 +31,16 @@ class Manager
 {
 
 	/**
-	* @var 		$resource
-	* @access 	public
-	*/
-	public 		$resource;
-
-	/**
 	* @var 		$file
 	* @access 	private
 	*/
-	private 		$file;
+	private 	$file = null;
 
 	/**
 	* @var 		$directory
 	* @access 	private
 	*/
-	private 		$directory;
+	private 	$directory = null;
 	
 	/**
 	* Constructor
@@ -55,11 +49,12 @@ class Manager
 	* @access 	public
 	* @return 	Object <Kit\FileSystem\Manager>
 	*/
-	public function __construct(String $resource)
+	public function __construct(String $resource=null)
 	{
-		(String) $this->resource = $resource;
-		$this->file = new FileManager($resource);
-		$this->directory = new DirectoryManager($resource);
+		if ($resource !== null) {
+			$this->file = new FileManager($resource);
+			$this->directory = new DirectoryManager($resource);
+		}
 
 		return $this;
 	}
@@ -67,22 +62,32 @@ class Manager
 	/**
 	* Returns an instance of Kit\FileSystem\File\FileManager.
 	*
+	* @param 	$resource <String>
 	* @access 	public
 	* @return 	Object <Kit\FileSystem\File\FileManager>
 	*/
-	public function file() : FileManager
+	public function file(String $resource=null) : FileManager
 	{
+		if ($this->file == null) {
+			return new FileManager($resource);
+		}
+
 		return $this->file;
 	}
 
 	/**
 	* Returns an instance of Kit\FileSystem\Directory\DirectoryManager.
 	*
+	* @param 	$resource <String>
 	* @access 	public
 	* @return 	Object <Kit\FileSystem\Directory\DirectoryManager>
 	*/
-	public function directory() : DirectoryManager
+	public function directory(String $resource=null) : DirectoryManager
 	{
+		if ($this->directory == null) {
+			return new DirectoryManager($resource);
+		}
+
 		return $this->directory;
 	}
 
