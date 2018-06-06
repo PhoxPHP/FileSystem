@@ -1,11 +1,9 @@
 <?php
-namespace Kit\FileSystem\File;
 /**
-* @author 		Peter Taiwo
-* @version 		1.0.0
-* @package 		FileSystem.File
-* @copyright 	MIT License
-* Copyright (c) 2017 PhoxPHP
+* @author 		Peter Taiwo <peter@phoxphp.com>
+* @package 		Kit\FileSystem\File\FileManager
+* @license 		MIT License
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
@@ -21,6 +19,8 @@ namespace Kit\FileSystem\File;
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+
+namespace Kit\FileSystem\File;
 
 use Kit\FileSystem\File\Reader;
 use Kit\FileSystem\File\Writer;
@@ -42,7 +42,7 @@ class FileManager implements Permittable
 	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	Kit\FileSystem\File\FileManager
+	* @return 	<Object> <Kit\FileSystem\File\FileManager>
 	*/
 	public function __construct($file='')
 	{
@@ -54,7 +54,7 @@ class FileManager implements Permittable
 	* Creates a new file and returns file object afterwards.
 	*
 	* @access 	public
-	* @return 	Kit\FileManager\File\FileManager
+	* @return 	<Object> <Kit\FileManager\File\FileManager>
 	*/
 	public function create()
 	{
@@ -75,7 +75,7 @@ class FileManager implements Permittable
 	* or not before attempting to create the file.
 	*
 	* @access 	public
-	* @return void
+	* @return 	<void>
 	*/
 	public function createIfNotExist()
 	{
@@ -92,16 +92,14 @@ class FileManager implements Permittable
 	* Checks if a file exists.
 	*
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
-	public function exists()
+	public function exists() : Bool
 	{
 		$response = false;
 		
 		if (file_exists($this->file) && is_file($this->file)) {
-
 			$response = true;
-		
 		}
 
 		return $response;
@@ -112,19 +110,17 @@ class FileManager implements Permittable
 	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function getFileSize(String $file='')
 	{
 		$response = false;
-		if (null == $this->file) {
 
+		if (null == $this->file) {
 			$this->file = $file;
-		
 		}
 
 		if ($this->exists()) {
-
 			$size = filesize($this->file);
 			
 			return $size;
@@ -136,14 +132,12 @@ class FileManager implements Permittable
 	* Gets the file type of the specified file.
 	*
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function getFileType()
 	{
 		if ($this->exists()) {
-
 			return filetype($this->file);
-		
 		}
 
 		return null;
@@ -154,16 +148,13 @@ class FileManager implements Permittable
 	*
 	* @param 	$newDestination <String>
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function copyTo(String $newDestination='')
 	{
 		if ($this->exists() && false == file_exists($newDirectory)) {
-
 			copy($this->file, $newDestination);
-
 			return true;
-		
 		}
 
 		return null;
@@ -174,22 +165,17 @@ class FileManager implements Permittable
 	*
 	* @param 	$newName <String>
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function rename(String $newName='')
 	{
 		if ('' == $newName) {
-
 			$newName = uniqid();
-		
 		}
 
 		if ($this->exists()) {
-
 			rename($this->file, $newName);
-		
 			return true;
-		
 		}
 	}
 
@@ -198,7 +184,7 @@ class FileManager implements Permittable
 	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
 	public function delete($file='')
 	{
@@ -221,9 +207,7 @@ class FileManager implements Permittable
 	public function deleteMultiple(array $files=[])
 	{
 		if (sizeof($files) > 0) {
-
 			return array_map([$this, 'deleteIfExists'], $array);
-		
 		}
 	}
 
@@ -237,11 +221,8 @@ class FileManager implements Permittable
 	public function deleteIfExists(String $file='')
 	{
 		if ($this->exists()) {
-
 			$this->delete($file);
-		
 			return true;
-		
 		}
 
 		return null;
@@ -273,9 +254,7 @@ class FileManager implements Permittable
 	public function getLastAccessTime()
 	{
 		if ($this->exists()) {
-
 			return fileatime($this->file);
-	
 		}
 
 		return null;
@@ -303,25 +282,21 @@ class FileManager implements Permittable
 	public function read(String $file='')
 	{
 		if ('' !== $file) {
-
 			$this->file = $file;
-		
 		}
 
 		if ($this->exists()) {
-
 			return Reader::read($this);
-		
 		}
 	}
 
 	/**
 	* @todo 	Create documentation
-	* @param 	$file
+	* @param 	$file <String>
 	* @access 	public
 	* @return 	Array
 	*/
-	public function readRaw($file='')
+	public function readRaw(String $file='')
 	{
 		if ('' !== $file) {
 			$this->file = $file;
@@ -337,22 +312,18 @@ class FileManager implements Permittable
 	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
 	public function isWritable(String $file='')
 	{
 		(Boolean) $response = false;
 
 		if (null == $this->file) {
-		
 			$this->file = $file;
-		
 		}
 
 		if (is_writable($this->file)) {
-		
 			$response = true; 
-		
 		}
 
 		return $response;
@@ -363,22 +334,18 @@ class FileManager implements Permittable
 	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
 	public function isExecutable(String $file='')
 	{
 		(Boolean) $response = false;
 
 		if (null == $this->file) {
-		
 			$this->file = $file;
-		
 		}
 
 		if (is_executable($this->file)) {
-		
 			$response = true;
-		
 		}
 
 		return $response;
@@ -389,14 +356,12 @@ class FileManager implements Permittable
 	*
 	* @param 	$data <String>
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
 	public function write(String $data='')
 	{
 		if (!$this->exists()) {
-
 			return;
-		
 		}
 
 		$writer = new Writer($this);
@@ -409,14 +374,12 @@ class FileManager implements Permittable
 	*
 	* @param 	$owner <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function chown(String $owner='')
 	{
 		if (!$this->exists()) {
-
 			return;
-		
 		} 
 
 		return $this->permissionInstance()->changeOwner($this, $owner);
@@ -427,14 +390,12 @@ class FileManager implements Permittable
 	*
 	* @param 	$group <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function chgrp(String $group='')
 	{
 		if (!$this->exists()) {
-
 			return;
-		
 		}
 
 		return $this->permissionInstance()->changeGroup($this, $group);
@@ -445,14 +406,12 @@ class FileManager implements Permittable
 	*
 	* @param 	$mode <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function chmod(String $mode='')
 	{
 		if (!$this->exists()) {
-
 			return;
-
 		}
 
 		return $this->permissionInstance()->changeMode($this, $mode);
@@ -464,18 +423,15 @@ class FileManager implements Permittable
 	* @param 	$line <Integer>
 	* @access 	public
 	* @throws 	FileNotFoundException
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function getLine(int $line=0)
 	{
 		if (!$this->exists()) {
-
 			throw new FileNotFoundException("Unable to get line from file $this->file");
-		
 		}
 
 		$reader = Reader::readAsArray($this);
-
 		return $reader[$line];
 	}
 
@@ -483,14 +439,12 @@ class FileManager implements Permittable
 	* Checks if file was uploaded via http post.
 	*
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
-	public function isPostedUpload()
+	public function isPostedUpload() : Bool
 	{
 		if (!is_uploaded_file($this->file)) {
-
 			return false;
-		
 		}
 
 		return true;
@@ -500,24 +454,19 @@ class FileManager implements Permittable
 	* Returns the real path of file.
 	*
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function getRealPath()
 	{
 		if ($this->exists()) {
-
 			return realpath($this->file);
-		
 		}
 
 		return false;
 	}
 
 	/**
-	* Returns the permitted file that is being used.
-	*
-	* @access 	public
-	* @return 	String
+	* {@inheritDoc}
 	*/
 	public function getPermitted()
 	{
@@ -528,7 +477,7 @@ class FileManager implements Permittable
 	* Returns an instance of PermissionMaker.
 	*
 	* @access 	private
-	* @return 	Object FileSystem\Permission\PermissionMaker
+	* @return 	<Object> <FileSystem\Permission\PermissionMaker>
 	*/
 	private function permissionInstance()
 	{

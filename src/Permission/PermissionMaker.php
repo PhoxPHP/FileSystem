@@ -1,11 +1,9 @@
 <?php
-namespace Kit\FileSystem\Permission;
 /**
-* @author 		Peter Taiwo
-* @version 		1.0.0
-* @package 		FileSystem.Permission.PermissionMaker
-* @copyright 	MIT License
-* Copyright (c) 2017 PhoxPHP
+* @author 		Peter Taiwo <peter@phoxphp.com>
+* @package 		Kit\FileSystem\Permission\PermissionMaker
+* @license 		MIT License
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
@@ -22,13 +20,8 @@ namespace Kit\FileSystem\Permission;
 * SOFTWARE.
 */
 
+namespace Kit\FileSystem\Permission;
 
-/**
-* @author 	Peter Taiwo
-* @package 	FileSystem.Permission.PermissionMaker
-*/
-
-use BadPermissionException;
 use Kit\FileSystem\Exceptions\BadPermissionException;
 use Kit\FileSystem\Permission\Interfaces\Permittable;
 
@@ -38,7 +31,7 @@ class PermissionMaker
 	/**
 	* Changes a file or directory's group permission.
 	*
-	* @param 	$permittable <Interface> Kit\FileSystem\Permission\Interfaces\Permittable
+	* @param 	$permittable <Kit\FileSystem\Permission\Interfaces\Permittable>
 	* @param 	$group <String>
 	* @access 	public
 	* @throws 	BadPermissionException
@@ -49,18 +42,23 @@ class PermissionMaker
 		if (!function_exists('chgrp')) {
 			return;
 		}
+
+		chgrp(
+			$permittable->getPermitted(),
+			$group
+		);
 	}
 
 	/**
 	* Changes a file or directory's owner permission.
 	*
-	* @param 	$permittable <Interface> Kit\FileSystem\Permission\Interfaces\Permittable
+	* @param 	$permittable <Kit\FileSystem\Permission\Interfaces\Permittable>
 	* @param 	$owner <String>
 	* @access 	public
 	* @throws 	BadPermissionException
 	* @return 	Boolean
 	*/
-	public function changeOwner(Permittable $permittable, $owner='')
+	public function changeOwner(Permittable $permittable, $owner='') : Bool
 	{
 		if (!function_exists('chown')) {
 			return false;
@@ -76,13 +74,13 @@ class PermissionMaker
 	/**
 	* Changes a file or directory's mode.
 	*
-	* @param 	$permittable <Interface> Kit\FileSystem\Permission\Interfaces\Permittable
+	* @param 	$permittable <Kit\FileSystem\Permission\Interfaces\Permittable>
 	* @param 	$mode <Integer>
 	* @access 	public
 	* @throws 	BadPermissionException
 	* @return 	Boolean
 	*/
-	public function changeMode(Permittable $permittable, $mode=0644)
+	public function changeMode(Permittable $permittable, $mode=0644) : Bool
 	{
 		if (!function_exists('chmod')) {
 			return false;

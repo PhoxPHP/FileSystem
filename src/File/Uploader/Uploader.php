@@ -1,7 +1,7 @@
 <?php
 /**
 * @author 		Peter Taiwo <peter@phoxphp.com>
-* @package 		Kit\FileSystem\Exceptions\BadPermissionException
+* @package 		Kit\FileSystem\File\Uploader\Uploader
 * @license 		MIT License
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,27 +20,85 @@
 * SOFTWARE.
 */
 
-namespace Kit\FileSystem\Exceptions;
+namespace Kit\FileSystem\File\Uploader;
 
-use App\BaseException;
-
-class BadPermissionException extends BaseException
+class Uploader
 {
 
 	/**
-	* @var 		$template
+	* @var 		$upload_directory
 	* @access 	protected
 	*/
-	protected 	$template = 'default';
+	protected 	$upload_directory;
 
 	/**
-	* @param 	$message <String>
+	* @var 		$max_file_size
+	* @access 	protected
+	*/
+	protected 	$max_file_size;
+
+	/**
+	* @var 		$file_types
+	* @access 	protected
+	*/
+	protected 	$file_types;
+
+	/**
+	* @param 	$options <Array> 
 	* @access 	public
 	* @return 	void
 	*/
-	public function __construct($message='')
+	public function __construct(Array $options=[])
 	{
-		parent::__construct($message);
+
+	}
+
+	/**
+	* Sets new filename for uploaded file.
+	*
+	* @param 	$filename <String>
+	* @access 	public
+	* @return 	void
+	*/
+	public function setNewFilename(String $filename)
+	{
+
+	}
+
+	/**
+	* Sets new filename for uploaded file.
+	*
+	* @param 	$filename <String>
+	* @access 	public
+	* @return 	void
+	*/
+	public function setNewFilenamesGenerator(String $filename)
+	{
+
+	}
+
+	/**
+	* Sets maximum file size in bytes.
+	*
+	* @param 	$size <Integer>
+	* @access 	public
+	* @return 	void
+	*/
+	public function setMaximumFileSize(int $size=500)
+	{
+
+	}
+
+	/**
+	* Sets file types.
+	*
+	* @param 	$fileTypes <Array>
+	* @access 	public
+	* @return 	void
+	*/
+	public function setFileTypes(Array $fileTypes)
+	{
+
 	}
 
 }
