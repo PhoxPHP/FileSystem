@@ -1,8 +1,27 @@
 <?php
+/**
+* @author 		Peter Taiwo <peter@phoxphp.com>
+* @package 		Kit\FileSystem\File\Writer
+* @license 		MIT License
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 namespace Kit\FileSystem\File;
 
-use StringHelper;
-use BadWriterDataException;
 use Kit\FileSystem\File\FileManager;
 
 class Writer
@@ -27,7 +46,7 @@ class Writer
 	private static $minStringLength = null;
 
 	/**
-	* @var 		$roNewLine
+	* @var 		$toNewLine
 	* @access 	private
 	*/
 	private static $toNewLine = null;
@@ -35,8 +54,9 @@ class Writer
 	/**
 	* Constructor
 	*
-	* @param 	$file
+	* @param 	$file <Kit\FileSystem\File\FileManager>
 	* @access 	public
+	* @return 	<void>
 	*/
 	public function __construct(FileManager $file)
 	{
@@ -48,9 +68,9 @@ class Writer
 	*
 	* @param 	$length <Integer>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
-	public static function setMaximumLength($length=0)
+	public static function setMaximumLength(int $length=0)
 	{
 		return (Integer) Writer::$maxStringLength = $length;
 	}
@@ -60,9 +80,9 @@ class Writer
 	*
 	* @param 	$length <Integer>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
-	public static function setMinimumLength($length=0)
+	public static function setMinimumLength(int $length=0)
 	{
 		return (Integer) Writer::$minStringLength = $length;
 	}
@@ -73,15 +93,13 @@ class Writer
 	* @param 	$data <String>
 	* @access 	private
 	* @throws 	RuntimeException
-	* @return 	void.
+	* @return 	<void>
 	*/
 	private static function validateDataLength($data) {
 		if (null !== Writer::$minStringLength && Writer::$minStringLength > 0 && ctype_digit(Writer::$minStringLength)) {
 
 			if (strlen($data) < Writer::$minStringLength) {
-
 				throw new RuntimeException('Unable to write data into file. Data length is lower than required length.');
-			
 			}
 		
 		}
@@ -89,9 +107,7 @@ class Writer
 		if (null !== Writer::$maxStringLength && Writer::$maxStringLength > 0 && is_integer((Integer) Writer::$maxStringLength)) {
 			
 			if (strlen($data) > Writer::$maxStringLength) {
-			
 				throw new RuntimeException('Unable to write data into file. Data length is higher than required length.');
-			
 			}
 		
 		}
@@ -102,9 +118,9 @@ class Writer
 	* Sets a flag that tells the file writer to append data to a new line.
 	*
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
-	public static function toNewLine()
+	public static function toNewLine() : Bool
 	{
 		return (Boolean) Writer::$toNewLine = true;
 	}
@@ -116,16 +132,14 @@ class Writer
 	*
 	* @param 	$data <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function write(String $data='')
 	{
 		Writer::validateDataLength($data);
 
 		if (true == boolval(Writer::$toNewLine)) {
-
-			$data = $data."\n";
-		
+			$data = $data . "\n";
 		}
 
 		$filePointer = fopen($this->file, 'a');

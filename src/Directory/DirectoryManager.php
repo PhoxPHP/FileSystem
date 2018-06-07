@@ -1,11 +1,9 @@
 <?php
-namespace Kit\FileSystem\Directory;
 /**
-* @author 		Peter Taiwo
-* @version 		1.0.0
-* @package 		FileSystem.Directory
-* @copyright 	MIT License
-* Copyright (c) 2017 PhoxPHP
+* @author 		Peter Taiwo <peter@phoxphp.com>
+* @package 		Kit\FileSystem\Directory\DirectoryManager
+* @license 		MIT License
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
@@ -21,6 +19,8 @@ namespace Kit\FileSystem\Directory;
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+
+namespace Kit\FileSystem\Directory;
 
 use Kit\FileSystem\File\Reader;
 use Kit\FileSystem\File\FileManager;
@@ -46,7 +46,7 @@ class DirectoryManager implements Permittable
 	/**
 	* @param 	$directory <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function __construct($directory='')
 	{
@@ -58,20 +58,16 @@ class DirectoryManager implements Permittable
 	*
 	* @param 	$directory <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function mkdir($directory='')
 	{
 		if (null === $this->directory) {
-		
 			$this->directory = $directory;
-		
 		}
 
 		if (!function_exists('mkdir')) {
-		
 			return;
-		
 		}
 
 		mkdir($this->directory, 0755, true);
@@ -82,15 +78,13 @@ class DirectoryManager implements Permittable
 	*
 	* @param 	$directories <Array>
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function mkdirs(array $directories=[])
 	{
 		$map = null;
 		if (!empty($directories)) {
-
 			$map = array_map([$this, 'mkdir'], $directories);
-		
 		}
 
 		return $map;
@@ -101,20 +95,16 @@ class DirectoryManager implements Permittable
 	*
 	* @param 	$directory <String>
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function exists($directory='')
 	{
 		if (null == $this->directory) {
-
 			$this->directory=$directory;
-		
 		}
 
 		if (file_exists($this->directory) && is_dir($this->directory)) {
-		
 			return true;
-		
 		}
 
 		return;
@@ -124,7 +114,7 @@ class DirectoryManager implements Permittable
 	* Deletes a directory.
 	*
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
 	public function delete()
 	{
@@ -134,21 +124,19 @@ class DirectoryManager implements Permittable
 		
 		}
 
-		return rmdir($this->directory);
+		return (Boolean) rmdir($this->directory);
 	}
 
 	/**
 	* Returns directories and files in a directory.
 	*
 	* @access 	public
-	* @return 	Array
+	* @return 	<Array>
 	*/
-	public function getAll()
+	public function getAll() : Array
 	{
 		if ($this->exists() && $this->isReadable()) {
-
 			return scandir($this->directory);
-		
 		}
 
 		return [];
@@ -158,22 +146,19 @@ class DirectoryManager implements Permittable
 	* Returns only the files in a directory.
 	*
 	* @access 	public
-	* @return 	Array
+	* @return 	<Array>
 	*/
-	public function getFiles()
+	public function getFiles() : Array
 	{
 		$files = [];
 
 		if ($this->exists() && $this->isReadable()) {
 
 			$directory = opendir($this->directory);
-
 			while($opened = readdir($directory)) {
 			
 				if (is_file($this->directory . DIRECTORY_SEPARATOR . $opened) && !Directory::isBlockListed($opened)) {
-			
 					$files[] = $opened;
-			
 				}
 		
 			}
@@ -188,22 +173,19 @@ class DirectoryManager implements Permittable
 	* Returns only sub directories in a directory.
 	*
 	* @access 	public
-	* @return 	Array
+	* @return 	<Array>
 	*/
-	public function getDirectories()
+	public function getDirectories() : Array
 	{
 		$dirs = [];
 
 		if ($this->exists() && $this->isReadable()) {
 		
 			$dir = opendir($this->directory);
-		
 			while ($opened = readdir($dir)) {
 		
 				if (is_dir($this->directory . DIRECTORY_SEPARATOR . $opened) && !DirectoryManager::isBlockListed($opened)) {
-		
-					$dirs[] = $opened;	
-		
+					$dirs[] = $opened;
 				}
 		
 			}
@@ -221,14 +203,12 @@ class DirectoryManager implements Permittable
 	*
 	* @param 	$file <String>
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function hasFile($file='')
 	{
 		if (in_array((String) $file, $this->getAll())) {
-
 			return new FileManager($this->directory . '/' . $file);
-		
 		}
 
 		return false;
@@ -240,14 +220,12 @@ class DirectoryManager implements Permittable
 	*
 	* @param 	$directory <String>
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function hasDir($directory='')
 	{
 		if (in_array((String) $directory, $this->getAll()) && is_dir($this->directory . DIRECTORY_SEPARATOR . $directory)) {
-
 			return new Directory($this->directory . DIRECTORY_SEPARATOR . $directory);
-		
 		}
 
 		return false;
@@ -257,7 +235,7 @@ class DirectoryManager implements Permittable
 	* Checks if a directory is readable.
 	*
 	* @access 	public
-	* @return 	Mixed
+	* @return 	<Mixed>
 	*/
 	public function isReadable()
 	{
@@ -269,7 +247,7 @@ class DirectoryManager implements Permittable
 	*
 	* @param 	$list <Array>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public static function addToBlockedList(array $list=[])
 	{
@@ -281,7 +259,7 @@ class DirectoryManager implements Permittable
 	*
 	* @param 	$pack <String>
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
 	public static function isBlockListed(String $resource='')
 	{
@@ -290,7 +268,6 @@ class DirectoryManager implements Permittable
 
 	/**
 	* @ {inheritDoc}
-	* @access 	public
 	*/
 	public function getPermitted()
 	{
@@ -298,62 +275,58 @@ class DirectoryManager implements Permittable
 	}
 
 	/**
-	* Changes a file owner.
+	* Changes directory owner.
 	*
 	* @param 	$owner <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function chown(String $owner='')
 	{
 		if (!$this->exists()) {
-
 			return;
-		
 		}
 
 		return $this->permissionInstance()->changeOwner($this, $owner);
 	}
 
 	/**
-	* Changes a file group.
+	* Changes directory group.
 	*
 	* @param 	$group <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function chgrp(String $group='')
 	{
 		if (!$this->exists()) {
-
 			return;
-		
 		}
 
 		return $this->permissionInstance()->changeGroup($this, $group);
 	}
 
 	/**
-	* Changes a file mode.
+	* Changes a directory mode.
 	*
 	* @param 	$mode <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function chmod(String $mode='')
 	{
 		if (!$this->exists()) {
-
 			return;
-		
 		}
 
 		return $this->permissionInstance()->changeMode($this, $mode);
 	}
 
 	/**
+	* Returns directory name.
+	*
 	* @access 	public
-	* @return 	String
+	* @return 	<String>
 	*/
 	public function getName()
 	{
@@ -361,10 +334,10 @@ class DirectoryManager implements Permittable
 	}
 
 	/**
-	* Returns an instance of PermissionMaker
+	* Returns an instance of Kit\FileSystem\Permission\PermissionMaker
 	*
 	* @access 	private
-	* @return 	Object | PermissionMaker
+	* @return 	<Object> <Kit\FileSystem\Permission\PermissionMaker>
 	*/
 	private function permissionInstance()
 	{

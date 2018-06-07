@@ -1,10 +1,9 @@
 <?php
 /**
-* @author 		Peter Taiwo
-* @version 		1.0.0
-* @package 		FileSystem
-* @copyright 	MIT License
-* Copyright (c) 2017 PhoxPHP
+* @author 		Peter Taiwo <peter@phoxphp.com>
+* @package 		Kit\FileSystem\Manager
+* @license 		MIT License
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
@@ -25,6 +24,7 @@ namespace Kit\FileSystem;
 
 use Kit\FileSystem\Converter;
 use Kit\FileSystem\File\FileManager;
+use Kit\FileSystem\File\Uploader\Uploader;
 use Kit\FileSystem\Directory\DirectoryManager;
 
 class Manager
@@ -49,7 +49,7 @@ class Manager
 	* @access 	public
 	* @return 	Object <Kit\FileSystem\Manager>
 	*/
-	public function __construct(String $resource=null)
+	public function __construct(String $resource='')
 	{
 		if ($resource !== null) {
 			$this->file = new FileManager($resource);
@@ -89,6 +89,17 @@ class Manager
 		}
 
 		return $this->directory;
+	}
+
+	/**
+	* Returns an instance of Kit\FileSystem\File\Uploader\Uploader
+	*
+	* @access 	public
+	* @return 	Object <Kit\FileSystem\File\Uploader\Uploader>
+	*/
+	public function uploader() : Uploader
+	{
+		return new Uploader($this->file());
 	}
 
 }
