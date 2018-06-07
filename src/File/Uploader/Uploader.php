@@ -25,6 +25,7 @@ namespace Kit\FileSystem\File\Uploader;
 use Closure;
 use StdClass;
 use RuntimeException;
+use Kit\FileSystem\File\FileManager;
 
 class Uploader
 {
@@ -88,6 +89,23 @@ class Uploader
 	* @access 	protected
 	*/
 	protected 	$uploadedFiles = [];
+
+	/**
+	* @var 		$fileManager
+	* @access 	protected
+	*/
+	protected 	$fileManager;
+
+	/**
+	* Uploader constructor.
+	*
+	* @param 	$fileManager <String>
+	* @access 	public
+	*/
+	public function __construct(FileManager $fileManager)
+	{
+		$this->fileManager = $fileManager;
+	}
 
 	/**
 	* Sets the file request name.
@@ -174,6 +192,17 @@ class Uploader
 	}
 
 	/**
+	* Check if an error has been set.
+	*
+	* @access public
+	* @return 	<Boolean>
+	*/
+	public function hasError() : Bool
+	{
+		return ($this->error !== null) ? true : false;
+	}
+
+	/**
 	* Returns error encountered when processing uploads.
 	*
 	* @access 	public
@@ -233,9 +262,10 @@ class Uploader
 					$file->tmpName = $files['tmp_name'][$i];
 					$file->errorNumber = $files['error'][$i];
 					$file->type = $files['type'][$i];
-					$file->newName = ($this->filenameGenerator !== null) ? $this->filenameGenerator . $i : $file->originalName;
+					$file->newName = ($this->filenameGenerator !== null) ? $this->filenameGenerator . $i : pathinfo($file->originalName, PATHINFO_FILENAME);
 					$file->hasIndex = true;
 					$file->index = $i;
+					$file->extension = pathinfo($file->originalName, PATHINFO_EXTENSION);
 
 					$this->processUpload($file, $strict, $beforeCallback, $afterCallback);
 				}
@@ -246,8 +276,9 @@ class Uploader
 				$file->tmpName = $files['tmp_name'];
 				$file->errorNumber = $files['error'];
 				$file->type = $files['type'];
-				$file->newName = ($this->filenameGenerator !== null) ? $this->filenameGenerator . $i : $file->originalName;
+				$file->newName = ($this->filenameGenerator !== null) ? $this->filenameGenerator . $i : pathinfo($file->originalName, PATHINFO_FILENAME);
 				$file->hasIndex = false;
+				$file->extension = pathinfo($file->originalName, PATHINFO_EXTENSION);
 
 				$this->processUpload($file, $strict, $beforeCallback, $afterCallback);
 			}
@@ -313,7 +344,14 @@ class Uploader
 			return;
 		}
 
+		$file->newLocation = $file->destinationFolder . $file->newName . '.' . $file->extension;
+		if(!move_uploaded_file($file->tmpName, $file->destinationFolder . $file->newName . '.' . $file->extension)) {
+			return $this->haltProcess();
+		}
+
+		$file->uploadStatus = 'success';
 		$this->uploadedFiles[] = $file;
+		
 		if ($afterCallback instanceof Closure) {
 			$afterCallback($file, $this);
 		}

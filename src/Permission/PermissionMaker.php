@@ -34,19 +34,21 @@ class PermissionMaker
 	* @param 	$permittable <Kit\FileSystem\Permission\Interfaces\Permittable>
 	* @param 	$group <String>
 	* @access 	public
-	* @throws 	BadPermissionException
-	* @return 	void
+	* @throws 	<Kit\FileSystem\Exceptions\BadPermissionException>
+	* @return 	<Boolean>
 	*/
-	public function changeGroup(Permittable $permittable, $group='')
+	public function changeGroup(Permittable $permittable, $group='') : Bool
 	{
 		if (!function_exists('chgrp')) {
-			return;
+			return false;
 		}
 
 		chgrp(
 			$permittable->getPermitted(),
 			$group
 		);
+
+		return true;
 	}
 
 	/**
@@ -55,8 +57,8 @@ class PermissionMaker
 	* @param 	$permittable <Kit\FileSystem\Permission\Interfaces\Permittable>
 	* @param 	$owner <String>
 	* @access 	public
-	* @throws 	BadPermissionException
-	* @return 	Boolean
+	* @throws 	<Kit\FileSystem\Exceptions\BadPermissionException>
+	* @return 	<Boolean>
 	*/
 	public function changeOwner(Permittable $permittable, $owner='') : Bool
 	{
@@ -77,8 +79,8 @@ class PermissionMaker
 	* @param 	$permittable <Kit\FileSystem\Permission\Interfaces\Permittable>
 	* @param 	$mode <Integer>
 	* @access 	public
-	* @throws 	BadPermissionException
-	* @return 	Boolean
+	* @throws 	<Kit\FileSystem\Exceptions\BadPermissionException>
+	* @return 	<Boolean>
 	*/
 	public function changeMode(Permittable $permittable, $mode=0644) : Bool
 	{

@@ -32,7 +32,7 @@ class Reader
 	*
 	* @param 	$file <Kit\FileSystem\File\FileManager>
 	* @access 	public
-	* @return 	String
+	* @return 	<String>
 	*/
 	public static function read(FileManager $file)
 	{
@@ -40,11 +40,13 @@ class Reader
 	}
 
 	/**
+	* Returns the contents of a file as an array.
+	*
 	* @param 	$file <Kit\FileSystem\File\FileManager>
 	* @access 	public
-	* @return 	Array
+	* @return 	<Array>
 	*/
-	public static function readAsArray(FileManager $file)
+	public static function readAsArray(FileManager $file) : Array
 	{
 		return file($file->getFile());
 	}

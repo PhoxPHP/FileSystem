@@ -46,7 +46,7 @@ class Writer
 	private static $minStringLength = null;
 
 	/**
-	* @var 		$roNewLine
+	* @var 		$toNewLine
 	* @access 	private
 	*/
 	private static $toNewLine = null;
@@ -56,6 +56,7 @@ class Writer
 	*
 	* @param 	$file <Kit\FileSystem\File\FileManager>
 	* @access 	public
+	* @return 	<void>
 	*/
 	public function __construct(FileManager $file)
 	{
@@ -67,7 +68,7 @@ class Writer
 	*
 	* @param 	$length <Integer>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public static function setMaximumLength(int $length=0)
 	{
@@ -79,7 +80,7 @@ class Writer
 	*
 	* @param 	$length <Integer>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public static function setMinimumLength(int $length=0)
 	{
@@ -92,7 +93,7 @@ class Writer
 	* @param 	$data <String>
 	* @access 	private
 	* @throws 	RuntimeException
-	* @return 	void.
+	* @return 	<void>
 	*/
 	private static function validateDataLength($data) {
 		if (null !== Writer::$minStringLength && Writer::$minStringLength > 0 && ctype_digit(Writer::$minStringLength)) {
@@ -117,9 +118,9 @@ class Writer
 	* Sets a flag that tells the file writer to append data to a new line.
 	*
 	* @access 	public
-	* @return 	Boolean
+	* @return 	<Boolean>
 	*/
-	public static function toNewLine()
+	public static function toNewLine() : Bool
 	{
 		return (Boolean) Writer::$toNewLine = true;
 	}
@@ -131,7 +132,7 @@ class Writer
 	*
 	* @param 	$data <String>
 	* @access 	public
-	* @return 	void
+	* @return 	<void>
 	*/
 	public function write(String $data='')
 	{

@@ -49,7 +49,7 @@ class Manager
 	* @access 	public
 	* @return 	Object <Kit\FileSystem\Manager>
 	*/
-	public function __construct(String $resource=null)
+	public function __construct(String $resource='')
 	{
 		if ($resource !== null) {
 			$this->file = new FileManager($resource);
@@ -94,13 +94,12 @@ class Manager
 	/**
 	* Returns an instance of Kit\FileSystem\File\Uploader\Uploader
 	*
-	* @param 	$options <Array> | Options passed to uploader constructor.
 	* @access 	public
 	* @return 	Object <Kit\FileSystem\File\Uploader\Uploader>
 	*/
-	public function uploader(Array $options=[]) : Uploader
+	public function uploader() : Uploader
 	{
-		return new Uploader($options);
+		return new Uploader($this->file());
 	}
 
 }
