@@ -22,26 +22,9 @@
 
 namespace Kit\FileSystem\Exceptions;
 
-use App\BaseException;
+use Exception;
 
-class FileNotFoundException extends BaseException
+class FileNotFoundException extends Exception
 {
-
-	/**
-	* @var 		$template
-	* @access 	protected
-	*/
-	protected 	$template = 'default';
-
-	/**
-	* @param 	$message <String>
-	* @access 	public
-	* @return 	void
-	*/
-	public function __construct($message='')
-	{
-		$this->message = $message;
-		parent::__construct();
-	}
-
+	//
 }
